@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewParent;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -109,14 +112,66 @@ public class ImageAdapter extends BaseAdapter implements OnItemClickListener {
 		return resolver.readByPositionOnlyPath(position);
 	}
 
+	private void animateToInvisible(final View v) {
+		AlphaAnimation alphaAnim = new AlphaAnimation(1.0f, 0f);
+		alphaAnim.setFillAfter(true);
+		alphaAnim.setFillBefore(false);
+		alphaAnim.setAnimationListener(new AnimationListener() {
+
+			@Override
+			public void onAnimationStart(Animation animation) {
+				v.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				v.setVisibility(View.INVISIBLE);
+			}
+		});
+		alphaAnim.setDuration(300);
+		v.startAnimation(alphaAnim);
+	}
+
+	private void animateToVisible(final View v) {
+		AlphaAnimation alphaAnim = new AlphaAnimation(0f, 1.0f);
+		alphaAnim.setFillAfter(true);
+		alphaAnim.setFillBefore(false);
+		alphaAnim.setAnimationListener(new AnimationListener() {
+
+			@Override
+			public void onAnimationStart(Animation animation) {
+				v.setVisibility(View.INVISIBLE);
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				v.setVisibility(View.VISIBLE);
+			}
+		});
+		alphaAnim.setDuration(300);
+		v.startAnimation(alphaAnim);
+	}
+
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		View check = view.findViewById(R.id.check);
 		if (check.isShown()) {
-			check.setVisibility(View.GONE);
+			// check.setVisibility(View.GONE);
+			animateToInvisible(check);
 			list.remove(getPath(position));
 		} else {
-			check.setVisibility(View.VISIBLE);
+			// check.setVisibility(View.VISIBLE);
+			animateToVisible(check);
 			list.add(getPath(position));
 		}
 		selectionMode.assignNum(list.size());
