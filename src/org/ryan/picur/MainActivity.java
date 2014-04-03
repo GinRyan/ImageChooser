@@ -31,7 +31,6 @@ public class MainActivity extends FragmentActivity {
 
 				@Override
 				public void overTheMaxImagesCount(int max) {
-
 					Toast.makeText(getActivity(), "最多选取" + max + "张图片", Toast.LENGTH_SHORT).show();
 				}
 			});
