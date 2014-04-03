@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/gridimage_itemwidth"
+    android:layout_height="@dimen/gridimage_itemwidth" >
+
+    <ImageView
+        android:id="@+id/image_item"
+        android:layout_width="@dimen/gridimage_itemwidth"
+        android:layout_height="@dimen/gridimage_itemwidth"
+        android:background="@drawable/empty_photo"
+        android:scaleType="centerCrop" />
+
+    <ImageView
+        android:id="@+id/check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|right"
+        android:src="@drawable/image_shoot_select_checked"
+        android:visibility="gone" />
+
+</FrameLayout>
