@@ -20,7 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-public class ImageAdapter extends BaseAdapter implements OnItemClickListener {
+public abstract class ImageAdapter extends BaseAdapter implements OnItemClickListener {
 	Resolver resolver;
 	private Activity ctx;
 	GridView grid;
@@ -29,12 +29,18 @@ public class ImageAdapter extends BaseAdapter implements OnItemClickListener {
 	ViewGroup viewroot;
 	private SelectionMode selectionMode;
 
+	int maxImagesCount = 3;
+
 	public List<String> getCheckedImagesPaths() {
 		return list;
 	}
 
 	public Activity getActivity() {
 		return ctx;
+	}
+
+	public void setMaxImagesCount(int maxImagesCount) {
+		this.maxImagesCount = maxImagesCount;
 	}
 
 	public ImageAdapter(Activity ctx, GridView grid) {
@@ -166,14 +172,18 @@ public class ImageAdapter extends BaseAdapter implements OnItemClickListener {
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		View check = view.findViewById(R.id.check);
 		if (check.isShown()) {
-			// check.setVisibility(View.GONE);
 			animateToInvisible(check);
 			list.remove(getPath(position));
 		} else {
-			// check.setVisibility(View.VISIBLE);
-			animateToVisible(check);
-			list.add(getPath(position));
+			if (list.size() < 3) {
+				animateToVisible(check);
+				list.add(getPath(position));
+			} else {
+				overTheMaxImagesCount(maxImagesCount);
+			}
 		}
 		selectionMode.assignNum(list.size());
 	}
+
+	public abstract void overTheMaxImagesCount(int max);
 }

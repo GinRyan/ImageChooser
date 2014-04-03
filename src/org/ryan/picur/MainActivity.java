@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity {
 
@@ -26,7 +27,14 @@ public class MainActivity extends FragmentActivity {
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 			grid = (GridView) rootView.findViewById(R.id.grid);
-			grid.setAdapter(new ImageAdapter(getActivity(), grid));
+			grid.setAdapter(new ImageAdapter(getActivity(), grid) {
+
+				@Override
+				public void overTheMaxImagesCount(int max) {
+
+					Toast.makeText(getActivity(), "最多选取" + max + "张图片", Toast.LENGTH_SHORT).show();
+				}
+			});
 			return rootView;
 		}
 	}
