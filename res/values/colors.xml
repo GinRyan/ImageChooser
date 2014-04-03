@@ -3,5 +3,6 @@
 
     <color name="grid_state_pressed">#557dbcd3</color>
     <color name="grid_state_focused">#777dbcd3</color>
+    <color name="selectmode">#AA7dbcd3</color>
 
 </resources>
