@@ -13,7 +13,9 @@
         android:id="@+id/grid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:drawSelectorOnTop="true"
         android:horizontalSpacing="2dp"
+        android:listSelector="@drawable/photogrid_list_selector"
         android:numColumns="3"
         android:verticalSpacing="2dp" >
     </GridView>

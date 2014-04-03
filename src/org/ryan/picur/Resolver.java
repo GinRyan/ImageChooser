@@ -67,8 +67,6 @@ public class Resolver {
 			String imageFilePath = cursor.getString(fileColumn);
 			Log.d("Image Data", "Uri: " + imageFilePath);
 			ImageLoader.getInstance().displayImage("file://" + imageFilePath, imageview);
-			// AsyncReadBitmapTashThread.runSelf(new
-			// AsyncReadBitmapTashThread(imageview, imageFilePath));
 			return bitmap;
 		}
 		return bitmap;
