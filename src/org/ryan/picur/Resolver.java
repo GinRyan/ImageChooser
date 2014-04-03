@@ -2,7 +2,6 @@ package org.ryan.picur;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.Media;
 import android.util.Log;
@@ -17,6 +16,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
  * 
  */
 public class Resolver {
+	private static final String FILE_SCHEME = "file://";
 	private Cursor cursor;
 	private int fileColumn;
 	boolean isNotEmpty;
@@ -48,28 +48,38 @@ public class Resolver {
 
 	/**
 	 * <pre>
-	 * 读取下一张图片，这个方法非常重要，在这个方法中还会收集到图片的实际路径，所以必须想办法取到路径
+	 * 读取任意位置的图片，这个方法非常重要，在这个方法中还会收集到图片的实际路径，所以必须想办法取到路径
 	 * </pre>
-	 * 
-	 * TODO 这里还缺少内存管理
 	 * 
 	 * @param imageview
 	 * @param position
 	 * 
-	 * @return 返回位图
+	 * @return 返回位图的本地地址
 	 */
-	public Bitmap readNext(ImageView imageview, int position) {
-		Bitmap bitmap = null;
-		if (!isNotEmpty) {
-			return bitmap;
-		}
+	public String readByPosition(ImageView imageview, int position) {
+		String imageFilePath = null;
 		if (cursor.moveToPosition(position)) {
-			String imageFilePath = cursor.getString(fileColumn);
+			imageFilePath = cursor.getString(fileColumn);
 			Log.d("Image Data", "Uri: " + imageFilePath);
-			ImageLoader.getInstance().displayImage("file://" + imageFilePath, imageview);
-			return bitmap;
+			ImageLoader.getInstance().displayImage(FILE_SCHEME + imageFilePath, imageview);
+			return imageFilePath;
 		}
-		return bitmap;
+		return imageFilePath;
 	}
 
+	/**
+	 * 读取任意位置的图片，仅仅用于读取文件路径
+	 * 
+	 * @param position
+	 * @return
+	 */
+	public String readByPositionOnlyPath(int position) {
+		String imageFilePath = null;
+		if (cursor.moveToPosition(position)) {
+			imageFilePath = cursor.getString(fileColumn);
+			Log.d("Image Data", "Uri: " + imageFilePath);
+			return imageFilePath;
+		}
+		return imageFilePath;
+	}
 }
