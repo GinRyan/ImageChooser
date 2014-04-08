@@ -45,6 +45,11 @@ public abstract class ImageChooserAdapter extends BaseAdapter implements OnItemC
 
 	int maxImagesCount = 3;
 
+	/**
+	 * 获取已选择的图片路径集合
+	 * 
+	 * @return
+	 */
 	public List<String> getCheckedImagesPaths() {
 		return list;
 	}
@@ -53,6 +58,11 @@ public abstract class ImageChooserAdapter extends BaseAdapter implements OnItemC
 		return ctx;
 	}
 
+	/**
+	 * 设置可以选取最多的图片数量
+	 * 
+	 * @param maxImagesCount
+	 */
 	public void setMaxImagesCount(int maxImagesCount) {
 		this.maxImagesCount = maxImagesCount;
 	}
@@ -66,12 +76,18 @@ public abstract class ImageChooserAdapter extends BaseAdapter implements OnItemC
 		readd();
 	}
 
+	/**
+	 * 取出父布局
+	 */
 	public void initparent() {
 		parent = grid.getParent();
 		viewroot = (ViewGroup) parent;
 		viewroot.removeView(grid);
 	}
 
+	/**
+	 * 重新载入提示条
+	 */
 	public void readd() {
 		LinearLayout layout = new LinearLayout(getActivity());
 		layout.setOrientation(LinearLayout.VERTICAL);
@@ -137,10 +153,21 @@ public abstract class ImageChooserAdapter extends BaseAdapter implements OnItemC
 		return convertView;
 	}
 
+	/**
+	 * 获取某位置上的文件路径
+	 * 
+	 * @param position
+	 * @return
+	 */
 	public String getPath(int position) {
 		return resolver.readByPositionOnlyPath(position);
 	}
 
+	/**
+	 * 动画淡出隐藏
+	 * 
+	 * @param v
+	 */
 	private void animateToInvisible(final View v) {
 		AlphaAnimation alphaAnim = new AlphaAnimation(1.0f, 0f);
 		alphaAnim.setFillAfter(true);
@@ -166,6 +193,11 @@ public abstract class ImageChooserAdapter extends BaseAdapter implements OnItemC
 		v.startAnimation(alphaAnim);
 	}
 
+	/**
+	 * 动画淡入显示
+	 * 
+	 * @param v
+	 */
 	private void animateToVisible(final View v) {
 		AlphaAnimation alphaAnim = new AlphaAnimation(0f, 1.0f);
 		alphaAnim.setFillAfter(true);
@@ -208,5 +240,10 @@ public abstract class ImageChooserAdapter extends BaseAdapter implements OnItemC
 		selectionMode.assignNum(list.size());
 	}
 
+	/**
+	 * 当选择达到最多选取图片的数量时执行动作？
+	 * 
+	 * @param max
+	 */
 	public abstract void overTheMaxImagesCount(int max);
 }
