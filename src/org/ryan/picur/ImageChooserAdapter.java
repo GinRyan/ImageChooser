@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,13 +20,13 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 public abstract class ImageChooserAdapter extends BaseAdapter implements OnItemClickListener {
+	public static final String URI = "uri";
 	Resolver resolver;
 	private Activity ctx;
 	GridView grid;
-	List<String> list = new ArrayList<String>();
+	ArrayList<String> list = new ArrayList<String>();
 	private ViewParent parent;
 	ViewGroup viewroot;
 	private SelectionMode selectionMode;
@@ -67,7 +68,9 @@ public abstract class ImageChooserAdapter extends BaseAdapter implements OnItemC
 
 			@Override
 			public void doDeliver(View v) {
-				Toast.makeText(ctx, "完成选取", Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent();
+				intent.putExtra(URI, list);
+				ctx.finish();
 			}
 		};
 		layout.addView(selectionMode.inflateBuild());
@@ -176,12 +179,10 @@ public abstract class ImageChooserAdapter extends BaseAdapter implements OnItemC
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		View check = view.findViewById(R.id.check);
 		if (check.isShown()) {
-			// check.setVisibility(View.INVISIBLE);
 			animateToInvisible(check);
 			list.remove(getPath(position));
 		} else {
 			if (list.size() < maxImagesCount) {
-				// check.setVisibility(View.VISIBLE);
 				animateToVisible(check);
 				list.add(getPath(position));
 			} else {
