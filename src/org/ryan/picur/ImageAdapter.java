@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewParent;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -107,8 +105,10 @@ public abstract class ImageAdapter extends BaseAdapter implements OnItemClickLis
 		} else {
 			vh = (ViewHolder) convertView.getTag();
 			vh.image_item.setImageBitmap(null);
+			vh.check.setVisibility(View.GONE);
 		}
 		boolean checkedCurrentImage = list.contains(getPath(position));
+		Log.i("info", "显示位置position: " + position + ", 绘制图片: " + getPath(position) + "，是否选取：" + checkedCurrentImage);
 		vh.check.setVisibility(checkedCurrentImage ? View.VISIBLE : View.GONE);
 		resolver.readByPosition(vh.image_item, position);
 		return convertView;
@@ -118,65 +118,15 @@ public abstract class ImageAdapter extends BaseAdapter implements OnItemClickLis
 		return resolver.readByPositionOnlyPath(position);
 	}
 
-	private void animateToInvisible(final View v) {
-		AlphaAnimation alphaAnim = new AlphaAnimation(1.0f, 0f);
-		alphaAnim.setFillAfter(true);
-		alphaAnim.setFillBefore(false);
-		alphaAnim.setAnimationListener(new AnimationListener() {
-
-			@Override
-			public void onAnimationStart(Animation animation) {
-				v.setVisibility(View.VISIBLE);
-			}
-
-			@Override
-			public void onAnimationRepeat(Animation animation) {
-
-			}
-
-			@Override
-			public void onAnimationEnd(Animation animation) {
-				v.setVisibility(View.INVISIBLE);
-			}
-		});
-		alphaAnim.setDuration(300);
-		v.startAnimation(alphaAnim);
-	}
-
-	private void animateToVisible(final View v) {
-		AlphaAnimation alphaAnim = new AlphaAnimation(0f, 1.0f);
-		alphaAnim.setFillAfter(true);
-		alphaAnim.setFillBefore(false);
-		alphaAnim.setAnimationListener(new AnimationListener() {
-
-			@Override
-			public void onAnimationStart(Animation animation) {
-				v.setVisibility(View.INVISIBLE);
-			}
-
-			@Override
-			public void onAnimationRepeat(Animation animation) {
-
-			}
-
-			@Override
-			public void onAnimationEnd(Animation animation) {
-				v.setVisibility(View.VISIBLE);
-			}
-		});
-		alphaAnim.setDuration(300);
-		v.startAnimation(alphaAnim);
-	}
-
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		View check = view.findViewById(R.id.check);
 		if (check.isShown()) {
-			animateToInvisible(check);
+			check.setVisibility(View.INVISIBLE);
 			list.remove(getPath(position));
 		} else {
-			if (list.size() < 3) {
-				animateToVisible(check);
+			if (list.size() < maxImagesCount) {
+				check.setVisibility(View.VISIBLE);
 				list.add(getPath(position));
 			} else {
 				overTheMaxImagesCount(maxImagesCount);
