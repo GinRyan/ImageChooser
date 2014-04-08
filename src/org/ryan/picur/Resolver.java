@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
- * 系统相册拾取器
+ * 系统相册游标管理器拾取器
  * 
  * @author Liang
  * 

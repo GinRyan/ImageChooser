@@ -21,7 +21,19 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+/**
+ * 图片显示和拾取适配器
+ * 
+ * @author Liang
+ * 
+ */
 public abstract class ImageChooserAdapter extends BaseAdapter implements OnItemClickListener {
+	/**
+	 * <pre>
+	 * 这个参数是用于跳转到回上一个页面后选取已选择的路径，
+	 * 获取的对象为ArrayList类型
+	 * </pre>
+	 */
 	public static final String URI = "uri";
 	Resolver resolver;
 	private Activity ctx;
@@ -68,15 +80,19 @@ public abstract class ImageChooserAdapter extends BaseAdapter implements OnItemC
 
 			@Override
 			public void doDeliver(View v) {
+				/*
+				 * 这一部分是为了保证已选择的图片路径可以被传递到上个界面
+				 */
 				Intent intent = new Intent();
 				intent.putExtra(URI, list);
+				ctx.setResult(Activity.RESULT_OK, intent);
 				ctx.finish();
 			}
 		};
 		layout.addView(selectionMode.inflateBuild());
 		layout.addView(grid);
-		layout.invalidate();
-		layout.requestLayout();
+		layout.invalidate();// 请求自身重绘
+		layout.requestLayout();//
 		viewroot.addView(layout);
 	}
 
