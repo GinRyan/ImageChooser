@@ -27,7 +27,7 @@ public class MainActivity extends FragmentActivity {
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 			grid = (GridView) rootView.findViewById(R.id.grid);
-			grid.setAdapter(new ImageAdapter(getActivity(), grid) {
+			grid.setAdapter(new ImageChooserAdapter(getActivity(), grid) {
 
 				@Override
 				public void overTheMaxImagesCount(int max) {

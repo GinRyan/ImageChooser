@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-public abstract class ImageAdapter extends BaseAdapter implements OnItemClickListener {
+public abstract class ImageChooserAdapter extends BaseAdapter implements OnItemClickListener {
 	Resolver resolver;
 	private Activity ctx;
 	GridView grid;
@@ -41,7 +41,7 @@ public abstract class ImageAdapter extends BaseAdapter implements OnItemClickLis
 		this.maxImagesCount = maxImagesCount;
 	}
 
-	public ImageAdapter(Activity ctx, GridView grid) {
+	public ImageChooserAdapter(Activity ctx, GridView grid) {
 		this.ctx = ctx;
 		this.grid = grid;
 		resolver = new Resolver().init(getActivity());
